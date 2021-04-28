@@ -11,6 +11,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 @Configuration
 @ComponentScan(basePackages = { "na.spring.sample" })
@@ -34,7 +35,9 @@ public class RootConfig {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource());
-        return (SqlSessionFactory) sqlSessionFactory.getObject();
+        sqlSessionFactory
+                .setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+        return sqlSessionFactory.getObject();
     }
 
 }
