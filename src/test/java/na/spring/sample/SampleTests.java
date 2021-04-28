@@ -1,0 +1,31 @@
+package na.spring.sample;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import na.spring.config.RootConfig;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = { RootConfig.class })
+@Log4j2
+public class SampleTests {
+
+    @Setter(onMethod_ = { @Autowired })
+    private Restaurant restaurant;
+
+    @Test
+    public void testExist() {
+        assertNotNull(restaurant);
+
+        log.info(restaurant);
+        log.info("-----------------------------");
+        log.info(restaurant.getChef());
+    }
+}
