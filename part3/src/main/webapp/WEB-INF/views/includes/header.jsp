@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>SB Admin 2</title>
 
     <!-- Custom fonts for this template -->
     <link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -23,7 +23,8 @@
     <!-- Custom styles for this page -->
     <link href="/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" >
+    </script>
 
 </head>
 

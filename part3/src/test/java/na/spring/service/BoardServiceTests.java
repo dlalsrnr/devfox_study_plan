@@ -54,7 +54,7 @@ public class BoardServiceTests {
 
     @Test
     public void testUpdate() {
-        BoardVO board = service.get(1L);
+        BoardVO board = service.get(5L);
         if (board == null)
             return;
         board.setTitle("제목 수정");
