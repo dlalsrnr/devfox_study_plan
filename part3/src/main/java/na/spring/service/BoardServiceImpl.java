@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import na.spring.domain.BoardVO;
+import na.spring.domain.Criteria;
 import na.spring.mapper.BoardMapper;
 
 @Service
@@ -41,9 +42,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardVO> getList() {
-        log.info("getlist.....................");
-        return mapper.getList();
+    public List<BoardVO> getList(Criteria cri) {
+        log.info("get List with criteria....................." + cri);
+        return mapper.getListWithPaging(cri);
     }
 
 }

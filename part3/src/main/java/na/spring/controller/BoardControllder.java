@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import na.spring.domain.BoardVO;
+import na.spring.domain.Criteria;
 import na.spring.service.BoardService;
 
 @Controller
@@ -20,10 +21,15 @@ import na.spring.service.BoardService;
 public class BoardControllder {
     private BoardService service;
 
+    // @GetMapping("/list")
+    // public void list(Model model) {
+    // log.info("list");
+    // model.addAttribute("list", service.getList());
+    // }
     @GetMapping("/list")
-    public void list(Model model) {
-        log.info("list");
-        model.addAttribute("list", service.getList());
+    public void list(Criteria cri, Model model) {
+        log.info("list : " + cri);
+        model.addAttribute("list", service.getList(cri));
     }
 
     @PostMapping("/register")
