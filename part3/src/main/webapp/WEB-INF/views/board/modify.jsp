@@ -15,7 +15,12 @@ $(function() {
             formObj.attr("action", "/board/remove")
         } else if(operation === 'list') {
             formObj.attr("action", "/board/list").attr("method", "get")
+            var pageNumTag = $("input[name='pageNum']").clone()
+            var amountTag = $("input[name='amount']").clone()
+
             formObj.empty()
+            formObj.append(pageNumTag)
+            formObj.append(amountTag)
         }
         formObj.submit()
     })
@@ -59,6 +64,8 @@ $(function() {
                     <input type="hidden" class="form-control form-control-user" name="updateDate"
                     value='<c:out value="${board.updateDate}"/>' readOnly>
                 </div> --%>
+                <input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+                <input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
                 <button type="submit" data-oper="modify" class="btn btn-success">Modify</button>
                 <button type="submit" data-oper="remove" class="btn btn-danger">Remove</button>
                 <button type="submit" data-oper="list" class="btn btn-secondary">List</button>

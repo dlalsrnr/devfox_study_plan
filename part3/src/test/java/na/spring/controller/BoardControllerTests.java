@@ -21,7 +21,7 @@ import na.spring.Main;
 @WebAppConfiguration
 @ContextConfiguration(classes = { DatabaseConfiguration.class, Main.class })
 @Log4j2
-public class BoardControllderTests {
+public class BoardControllerTests {
     @Setter(onMethod_ = { @Autowired })
     private WebApplicationContext ctx;
 

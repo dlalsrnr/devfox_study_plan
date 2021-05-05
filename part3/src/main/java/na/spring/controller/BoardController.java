@@ -3,6 +3,7 @@ package na.spring.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,13 +13,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import na.spring.domain.BoardVO;
 import na.spring.domain.Criteria;
+import na.spring.domain.PageDTO;
 import na.spring.service.BoardService;
 
 @Controller
 @Log4j2
 @RequestMapping("/board/*")
 @AllArgsConstructor
-public class BoardControllder {
+public class BoardController {
     private BoardService service;
 
     // @GetMapping("/list")
@@ -30,6 +32,10 @@ public class BoardControllder {
     public void list(Criteria cri, Model model) {
         log.info("list : " + cri);
         model.addAttribute("list", service.getList(cri));
+        // model.addAttribute("pageMaker", new PageDTO(cri, 123));
+        int total = service.getTotal(cri);
+        log.info("total : " + total);
+        model.addAttribute("pageMaker", new PageDTO(cri, total));
     }
 
     @PostMapping("/register")
@@ -46,17 +52,19 @@ public class BoardControllder {
     }
 
     @GetMapping({ "/get", "/modify" })
-    public void get(@RequestParam("bno") Long bno, Model model) {
+    public void get(@RequestParam("bno") Long bno, @ModelAttribute("cri") Criteria cri, Model model) {
         log.info("/get or /modify");
         model.addAttribute("board", service.get(bno));
     }
 
     @PostMapping("/modify")
-    public String modify(BoardVO board, RedirectAttributes rttr) {
+    public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
         log.info("modify : " + board);
         if (service.modify(board)) {
             rttr.addFlashAttribute("result", "success");
         }
+        rttr.addAttribute("pageNum", cri.getPageNum());
+        rttr.addAttribute("amount", cri.getAmount());
         return "redirect:/board/list";
     }
 

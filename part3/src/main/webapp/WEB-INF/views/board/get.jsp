@@ -50,8 +50,9 @@ $(function() {
             <button data-oper="modify" class="btn btn-success">Modify</button>
             <button data-oper="list" class="btn btn-secondary">List</button>
             <form id="operForm" action="/board/modify" method="get">
-                <input type="hidden" class="form-control form-control-user" name="bno"
-                value='<c:out value="${board.bno}"/>'>
+                <input type="hidden" id='bno' name="bno" value='<c:out value="${board.bno}"/>'>
+                <input type="hidden" id='pageNum' name="pageNum" value='<c:out value="${cri.pageNum}"/>'>
+                <input type="hidden" id='amount' name="amount" value='<c:out value="${cri.amount}"/>'>
             </form>
         </div>
     </div>
