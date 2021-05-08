@@ -1,5 +1,6 @@
 package na.spring.mapper;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import lombok.extern.log4j.Log4j2;
+import na.spring.domain.Criteria;
 import na.spring.domain.ReplyVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,6 +53,13 @@ public class ReplyMapperTests {
         vo.setReply("Update Reply ");
         int count = mapper.update(vo);
         log.info("UPDATE COUNT : " + count);
+    }
+
+    @Test
+    public void testList() {
+        Criteria cri = new Criteria();
+        List<ReplyVO> replies = mapper.getListWithPaging(cri, bnoArr[0]);
+        replies.forEach(reply -> log.info(reply));
     }
 
     @Test
