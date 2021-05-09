@@ -15,7 +15,11 @@
         update tbl_reply set reply = #{reply}, replyer = #{replyer}, updatedate = sysdate where rno = #{rno}
     </update>
     <select id="getListWithPaging" resultType="na.spring.domain.ReplyVO">
-        select rno, bno, reply, replyer, replyDate, updatedate from tbl_reply
-        where bno = #{bno} order by rno
+        <![CDATA[ 
+        select rno, bno, reply, replyer, replyDate, updatedate from
+        (select /*+INDEX(tbl_reply idx_reply) */ rownum rn, a.* from tbl_reply a
+        where bno = #{bno} and rno > 0 and rownum <= #{cri.pageNum} * #{cri.amount})
+        where rn > (#{cri.pageNum} - 1) * #{cri.amount}
+        ]]>
     </select>
 </mapper>

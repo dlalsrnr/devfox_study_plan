@@ -13,4 +13,6 @@ alter table tbl_reply add constraint pk_reply PRIMARY KEY (rno);
 
 alter table tbl_reply add CONSTRAINT fk_reply_board FOREIGN KEY (bno) REFERENCES tbl_board (bno);
 
+create index idx_reply on tbl_reply (bno desc, rno asc);
+
 COMMIT;
