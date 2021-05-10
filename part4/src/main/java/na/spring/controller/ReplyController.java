@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import na.spring.domain.Criteria;
+import na.spring.domain.ReplyPageDTO;
 import na.spring.domain.ReplyVO;
 import na.spring.service.ReplyService;
 
@@ -37,11 +38,11 @@ public class ReplyController {
     }
 
     @GetMapping(value = "/pages/{bno}/{page}")
-    public ResponseEntity<List<ReplyVO>> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
-        log.info("getList.....................");
+    public ResponseEntity<ReplyPageDTO> getList(@PathVariable("page") int page, @PathVariable("bno") Long bno) {
         Criteria cri = new Criteria(page, 10);
-        log.info(cri);
-        return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+        log.info("get Reply List bno : " + bno);
+        log.info("cri : " + cri);
+        return new ResponseEntity<>(service.getListPage(cri, bno), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{rno}")

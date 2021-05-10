@@ -22,4 +22,9 @@
         where rn > (#{cri.pageNum} - 1) * #{cri.amount}
         ]]>
     </select>
+    <select id="getCountByBno" resultType="int">
+        <![CDATA[ 
+        select count(rno) from tbl_reply where bno = #{bno}
+        ]]>
+    </select>
 </mapper>

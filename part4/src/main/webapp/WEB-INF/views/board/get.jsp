@@ -11,10 +11,18 @@ $(function() {
     const replyUL = $(".chat")
     showList(1)
     function showList(page) {
-        replyService.getList({bno: bnoValue, page: page||1}, function(list) {
+        console.log("show list " + page)
+        replyService.getList({bno: bnoValue, page: page||1}, function(replyCnt, list) {
+            console.log("replyCnt: " + replyCnt)
+            console.log("list: " + list)
+            console.log(list)
+            if(page == -1) {
+                pageNum = Math.ceil(replyCnt/10.0)
+                showList(pageNum)
+                return
+            }
             let str=""
             if(list == null || list.length == 0) {
-                replyUL.html("")
                 return
             }
             list.forEach(element => {
@@ -22,9 +30,9 @@ $(function() {
                 str += "    <div><div class='header'><strong class='primary-font'>" + element.replyer + "</strong>"
                 str += "        <small class='float-right text-muted'>" + replyService.displayTime(element.replyDate) + "</small></div>"
                 str += "        <p>" + element.reply + "</p></div></li>"
-            }
-            );
+            });
             replyUL.html(str)
+            showReplyPage(replyCnt)
         })
         const modal = $("#replyModal")
         const modalInputReply = modal.find("input[name='reply']")
@@ -52,7 +60,7 @@ $(function() {
                 modal.find("input").val("")
                 modal.modal("hide")
 
-                showList(1)
+                showList(-1)
             })
         })
         replyUL.on("click", "li", function(e) {
@@ -74,7 +82,7 @@ $(function() {
             replyService.update(reply, function(result) {
                 alert(result)
                 modal.modal("hide")
-                showList(1)
+                showList(pageNum)
             })
         })
         modalRemoveBtn.click(function(e) {
@@ -82,10 +90,46 @@ $(function() {
             replyService.remove(rno, function(result) {
                 alert(result)
                 modal.modal("hide")
-                showList(1)
+                showList(pageNum)
             })
         })
     }
+
+    let pageNum = 1
+    const replyPageFooter = $(".card-footer")
+    function showReplyPage(replyCnt) {
+        let endNum = Math.ceil(pageNum / 10.0) * 10
+        let startNum = endNum - 9
+        let prev = startNum != 1
+        let next = false
+        if(endNum * 10 >= replyCnt)
+            endNum = Math.ceil(replyCnt/10.0)
+        else
+            next = true
+        let str = "<ul class='pagination float-right'>"
+        if(prev) {
+            str += "<li class='page-item'><a class='page-link' href='" + (startNum - 1) + "'>Previous</a></li>"
+        }
+        for (let i = startNum; i <= endNum; i++) {
+            const active = pageNum == i ? "active" : ""
+            str += "<li class='page-item " + active + "'><a class='page-link' href='" + i + "'>" + i + "</a></li>"
+        }
+        if (next) {
+            str += "<li class='page-item'><a class='page-link' href='" + (endNum + 1) +"'>Next</a></li>"
+        }
+        str += "</ul></div>"
+        console.log(str)
+        replyPageFooter.html(str)
+    }
+
+    replyPageFooter.on("click", "li a", function(e) {
+        e.preventDefault()
+        console.log("page click")
+        const targetPageNum = $(this).attr("href")
+        console.log("targetPageNum : " + targetPageNum)
+        pageNum = targetPageNum
+        showList(pageNum)
+    })
 })
 </script>
 <script type="text/javascript">
@@ -184,17 +228,10 @@ $(function() {
         </div>
         <div class="card-body">
             <ul class="chat">
-                <li class="left clearfix" data-rno='12'>
-                    <div>
-                        <div class="header">
-                            <strong class="primary-font">user00</strong>
-                            <small class="float-right text-muted">2018-01-01 13:13</small>
-                        </div>
-                        <p>Good job!</p>
-                    </div>
-                </li>
             </ul>
         </div>
+        <nav class='card-footer' aria-label="Page navigation">
+        </nav>
     </div>
 </div>
 <!-- /.container-fluid -->
