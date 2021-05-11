@@ -49,6 +49,7 @@ $(function() {
             modalRegisterBtn.show()
             modal.modal("show")
         })
+        modalRegisterBtn.unbind("click")
         modalRegisterBtn.click(function(e) {
             const reply = {
                 reply: modalInputReply.val(),
@@ -77,6 +78,7 @@ $(function() {
                 modal.modal("show")
             })
         })
+        modalModBtn.unbind("click")
         modalModBtn.click(function(e){
             const reply = {rno: modal.data("rno"), reply: modalInputReply.val(), replyer: modalInputReplyer.val()}
             replyService.update(reply, function(result) {
@@ -85,6 +87,7 @@ $(function() {
                 showList(pageNum)
             })
         })
+        modalRemoveBtn.unbind("click")
         modalRemoveBtn.click(function(e) {
             const rno = modal.data("rno")
             replyService.remove(rno, function(result) {
