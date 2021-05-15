@@ -44,8 +44,9 @@
                     data: formData,
                     processData: false,
                     contentType: false,
+                    dataType: 'json',
                     success: function (response) {
-                        alert("Uploaded")
+                        console.log(response)
                     }
                 })
             })
