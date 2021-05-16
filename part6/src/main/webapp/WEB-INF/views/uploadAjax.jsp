@@ -107,18 +107,20 @@
             })
             const uploadResult = $(".uploadResult ul")
             function showUploadedFile(uploadResultArr) { 
-                let str = "<li>"
                 $(uploadResultArr).each(function (i, obj) {
+                    let str = "<li>"
                     const fileCallPath = encodeURIComponent(obj.uploadPath + ((obj.image) ? "/s_" : "/") + obj.uuid + "_" + obj.fileName)
                     if (!obj.image) {
-                        str += "<a href='/download?fileName=" + fileCallPath + "'><img src='/resources/img/attach.png'>" + obj.fileName + "</a>"
+                        str += "<div><a href='/download?fileName=" + fileCallPath + "'><img src='/resources/img/attach.png'>" + obj.fileName + "</a>"
+                        + "<span data-file=\"" + fileCallPath + "\" data-type='file'> x </span></div>"
                     } else {
                         const originPath = obj.uploadPath.replace(new RegExp(/\\/g), "/") + "/" + obj.uuid + "_" + obj.fileName
                         str += "<a href='#' onclick='showImage(\"" + originPath + "\")'><img src='/display?fileName=" + fileCallPath + "'></a>"
+                        + "<span data-file=\"" + fileCallPath + "\" data-type='image'> x </span>"
                     }
                     str += "</li>"
+                    uploadResult.append(str)
                 })
-                uploadResult.append(str)
             }
 
             $(".bigPictureWrapper").click(function(e) {
@@ -126,6 +128,23 @@
                 setTimeout(() => {
                     $(this).hide()
                 }, 1000);
+            })
+
+            $(".uploadResult").on("click", "span", function(e) {
+                const targetFile = $(this).data("file")
+                const type = $(this).data("type")
+                console.log(targetFile)
+                console.log($(this).data)
+                $.ajax({
+                    url: '/deleteFile',
+                    data: {fileName: targetFile, type: type},
+                    dataType: 'text',
+                    type: 'post',
+                    success: function (result) {
+                        alert(result)
+                        e.target.closest('li').remove()
+                    }
+                })
             })
         })
 

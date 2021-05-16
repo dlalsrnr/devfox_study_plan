@@ -1,6 +1,7 @@
 package na.spring.controller;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -121,6 +122,29 @@ public class UploadController {
             e.printStackTrace();
         }
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteFile")
+    @ResponseBody
+    public ResponseEntity<String> deleteFile(String fileName, String type) {
+        log.info("deleteFile : " + fileName);
+        File file;
+
+        try {
+            file = new File("C:/upload/" + URLDecoder.decode(fileName, "UTF-8"));
+            file.delete();
+            if (type.equals("image")) {
+                String largeFileName = file.getAbsolutePath().replace("s_", "");
+                log.info("largeFileName : " + largeFileName);
+
+                file = new File(largeFileName);
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<String>("deleted", HttpStatus.OK);
     }
 
     private String getFolder() {
