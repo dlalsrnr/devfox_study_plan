@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -99,6 +101,26 @@ public class UploadController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    @GetMapping("/download")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile(String fileName) {
+        log.info("download file : " + fileName);
+        Resource resource = new FileSystemResource("c:/upload/" + fileName);
+        if (!resource.exists())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        log.info("resource : " + resource);
+        String resourceName = resource.getFilename();
+        String resourceOriginalName = resourceName.substring(resourceName.indexOf("_") + 1); // remove uuid
+        HttpHeaders headers = new HttpHeaders();
+        try {
+            headers.add("Content-Disposition",
+                    "attachment; filename=" + new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
     private String getFolder() {

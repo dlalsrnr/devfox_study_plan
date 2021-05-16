@@ -29,12 +29,41 @@
         .uploadResult ul li img {
             width: 50px;
         }
+        .uploadResult ul li span {
+            color: white;
+        }
+        .bigPictureWrapper {
+            position: absolute;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            top: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: gray;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.5);
+        }
+        .bigPicture {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bigPicture img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <div class='uploadResult'>
         <ul>
         </ul>
     </div>
     <button id='uploadBtn'>Upload</button>
+    <div class='bigPictureWrapper'>
+        <div class='bigPicture'>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         $(function() {
@@ -80,17 +109,30 @@
             function showUploadedFile(uploadResultArr) { 
                 let str = "<li>"
                 $(uploadResultArr).each(function (i, obj) {
+                    const fileCallPath = encodeURIComponent(obj.uploadPath + ((obj.image) ? "/s_" : "/") + obj.uuid + "_" + obj.fileName)
                     if (!obj.image) {
-                        str += "<img src='/resources/img/attach.png'>" + obj.fileName
+                        str += "<a href='/download?fileName=" + fileCallPath + "'><img src='/resources/img/attach.png'>" + obj.fileName + "</a>"
                     } else {
-                        const fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName)
-                        str += "<img src='/display?fileName=" + fileCallPath + "'>"
+                        const originPath = obj.uploadPath.replace(new RegExp(/\\/g), "/") + "/" + obj.uuid + "_" + obj.fileName
+                        str += "<a href='#' onclick='showImage(\"" + originPath + "\")'><img src='/display?fileName=" + fileCallPath + "'></a>"
                     }
                     str += "</li>"
                 })
                 uploadResult.append(str)
             }
+
+            $(".bigPictureWrapper").click(function(e) {
+                $(".bigPicture").animate({width: '0%', height: '0%'}, 1000)
+                setTimeout(() => {
+                    $(this).hide()
+                }, 1000);
+            })
         })
+
+        function showImage(fileCallPath) {
+            $(".bigPictureWrapper").css("display", "flex").show()
+            $(".bigPicture").html("<img src='/display?fileName=" + encodeURI(fileCallPath) + "'>").animate({width: '100%', height: '100%'}, 1000)
+        }
     </script>
 </body>
 </html>
