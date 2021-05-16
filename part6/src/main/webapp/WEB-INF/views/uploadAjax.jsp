@@ -11,6 +11,29 @@
     <div class='uploadDiv'>
         <input type='file' name='uploadFile' multiple>
     </div>
+    <style>
+        .uploadResult {
+            width: 100%;
+            background-color: gray;
+        }
+        .uploadResult ul {
+            display: flex;
+            flex-flow: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .uploadResult ul li {
+            list-style: none;
+            padding: 10px;
+        }
+        .uploadResult ul li img {
+            width: 50px;
+        }
+    </style>
+    <div class='uploadResult'>
+        <ul>
+        </ul>
+    </div>
     <button id='uploadBtn'>Upload</button>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
@@ -28,6 +51,7 @@
                 }
                 return true
             }
+            const cloneObj = $(".uploadDiv").clone()
             $("#uploadBtn").click(function(e) {
                 const formData = new FormData()
                 const inputFile = $("input[name='uploadFile']")
@@ -47,9 +71,25 @@
                     dataType: 'json',
                     success: function (response) {
                         console.log(response)
+                        showUploadedFile(response)
+                        $(".uploadDiv").html(cloneObj.html())
                     }
                 })
             })
+            const uploadResult = $(".uploadResult ul")
+            function showUploadedFile(uploadResultArr) { 
+                let str = "<li>"
+                $(uploadResultArr).each(function (i, obj) {
+                    if (!obj.image) {
+                        str += "<img src='/resources/img/attach.png'>" + obj.fileName
+                    } else {
+                        const fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName)
+                        str += "<img src='/display?fileName=" + fileCallPath + "'>"
+                    }
+                    str += "</li>"
+                })
+                uploadResult.append(str)
+            }
         })
     </script>
 </body>
