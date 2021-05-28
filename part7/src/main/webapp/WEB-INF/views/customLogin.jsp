@@ -14,10 +14,13 @@
 
     <form method='post' action="/login">
         <div>
-            <input type='text' name='username' value='admin00'>
+            <input type='text' name='username'>
         </div>
         <div>
-            <input type='password' name='password' value='pw00'>
+            <input type='password' name='password'>
+        </div>
+        <div>
+            <input type='checkbox' name='remember-me'>Remember Me </input>
         </div>
         <div>
             <input type='submit'>
