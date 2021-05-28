@@ -12,12 +12,12 @@
     <h2><c:out value="${error}"/></h2>
     <h2><c:out value="${logout}"/></h2>
 
-    <form method='post' action="/customLogin">
+    <form method='post' action="/login">
         <div>
-            <input type='text' name='username' value='admin'>
+            <input type='text' name='username' value='admin00'>
         </div>
         <div>
-            <input type='password' name='password' value='admin'>
+            <input type='password' name='password' value='pw00'>
         </div>
         <div>
             <input type='submit'>
