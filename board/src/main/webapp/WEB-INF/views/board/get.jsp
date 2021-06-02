@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%@include file="../includes/header.jsp"%>
 <script src="/resources/js/reply.js"></script>
@@ -131,13 +132,26 @@ $(function() {
         const modalRemoveBtn = $("#modalRemoveBtn")
         const modalRegisterBtn = $("#modalRegisterBtn")
 
+        let replyer = null
+        <sec:authorize access="isAuthenticated()">
+            replyer = '<sec:authentication property="principal.username" />'
+        </sec:authorize>
+        const csrfHeaderName = "${_csrf.headerName}"
+        const csrfTokenValue = "${_csrf.token}"
+
         $("#addReplyBtn").click(function() {
             modal.find("input").val("")
+            modal.find("input[name='replyer']").val(replyer)
             modalInputReplyDate.closest("div").hide()
             modal.find("button[id != 'modalCloseBtn']").hide()
             modalRegisterBtn.show()
             modal.modal("show")
         })
+
+        $(document).ajaxSend(function(e, xhr, options) {
+            xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+        })
+
         modalRegisterBtn.unbind("click")
         modalRegisterBtn.click(function(e) {
             const reply = {
@@ -169,7 +183,13 @@ $(function() {
         })
         modalModBtn.unbind("click")
         modalModBtn.click(function(e){
-            const reply = {rno: modal.data("rno"), reply: modalInputReply.val(), replyer: modalInputReplyer.val()}
+            const originalReplyer = modalInputReplyer.val()
+            const reply = {rno: modal.data("rno"), reply: modalInputReply.val(), replyer: originalReplyer}
+            if (replyer != originalReplyer) {
+                alert("자신이 작성한 댓글만 수정이 가능합니다.")
+                modal.modal("hide")
+                return
+            }
             replyService.update(reply, function(result) {
                 alert(result)
                 modal.modal("hide")
@@ -179,6 +199,17 @@ $(function() {
         modalRemoveBtn.unbind("click")
         modalRemoveBtn.click(function(e) {
             const rno = modal.data("rno")
+            if (!replyer) {
+                alert("로그인후 삭제가 가능합니다.")
+                modal.modal("hide")
+                return
+            }
+            const originalReplyer = modalInputReplyer.val()
+            if (replyer != originalReplyer) {
+                alert("자신이 작성한 댓글만 삭제가 가능합니다.")
+                modal.modal("hide")
+                return
+            }
             replyService.remove(rno, function(result) {
                 alert(result)
                 modal.modal("hide")
@@ -302,7 +333,12 @@ $(function() {
                     <input type="text" class="form-control form-control-user" name="writer"
                     value='<c:out value="${board.writer}"/>' readOnly>
                 </div>
-                <button data-oper="modify" class="btn btn-success">Modify</button>
+                <sec:authentication property="principal" var="pinfo" />
+                <sec:authorize access="isAuthenticated()">
+                    <c:if test="${pinfo.username eq board.writer}">
+                        <button data-oper="modify" class="btn btn-success">Modify</button>
+                    </c:if>
+                </sec:authorize>
                 <button data-oper="list" class="btn btn-secondary">List</button>
                 <form id="operForm" action="/board/modify" method="get">
                     <input type="hidden" id='bno' name="bno" value='<c:out value="${board.bno}"/>'>
@@ -331,7 +367,9 @@ $(function() {
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <i class="fa fa-comments fa-fw"></i> Reply
-                <button id='addReplyBtn' class='btn btn-primary btn-sm float-right'>New Reply</button>
+                <sec:authorize access="isAuthenticated()">
+                    <button id='addReplyBtn' class='btn btn-primary btn-sm float-right'>New Reply</button>
+                </sec:authorize>
             </div>
             <div class="card-body">
                 <ul class="chat">

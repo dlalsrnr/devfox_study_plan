@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -34,8 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sample/member").hasRole("MEMBER").antMatchers("/sample/admin").hasRole("ADMIN")
                 .antMatchers("/sample/all").permitAll().and()
                 // 로그인 페이지 설정
-                .formLogin().loginPage("/customLogin").loginProcessingUrl("/login")
-                .successHandler(loginSuccessHandler()).and()
+                .formLogin().loginPage("/customLogin").loginProcessingUrl("/login").defaultSuccessUrl("/board/list")
+                .and()
                 // 로그아웃 페이지 설정
                 .logout().logoutUrl("/customLogout").invalidateHttpSession(true)
                 .deleteCookies("remember-me", "JSESSION_ID").and()
@@ -55,11 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService()).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler loginSuccessHandler() {
-        return new CustomLoginSuccessHandler();
     }
 
     @Bean

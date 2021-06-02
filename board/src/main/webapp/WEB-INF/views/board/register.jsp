@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%@include file="../includes/header.jsp"%>
 <style>
@@ -79,6 +80,8 @@
             return true
         }
 
+        const csrfHeaderName = "${_csrf.headerName}"
+        const csrfTokenValue = "${_csrf.token}"
         $("input[type='file']").change(function(e) {
             const formData = new FormData()
             const inputFile = $("input[name='uploadFile']")
@@ -94,6 +97,9 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+                },
                 dataType: 'json',
                 success: function (response) {
                     console.log(response)
@@ -127,6 +133,9 @@
             $.ajax({
                 url: '/deleteFile',
                 data: {fileName: targetFile, type: type},
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+                },
                 dataType: 'text',
                 type: 'post',
                 success: function (result) {
@@ -146,6 +155,8 @@
             </div>
             <div class="card-body">
                 <form role="form" action="/board/register" method="post">
+                    <input type='hidden' name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" class="form-control form-control-user" name="title">
@@ -156,7 +167,7 @@
                     </div>
                     <div class="form-group">
                         <label>Writer</label>
-                        <input type="text" class="form-control form-control-user" name="writer">
+                        <input type="text" class="form-control form-control-user" name="writer" value='<sec:authentication property="principal.username"/>' readonly>
                     </div>
                     <button type="submit" class="btn btn-success">Submit Button</button>
                     <button type="reset" class="btn btn-secondary">Reset Button</button>

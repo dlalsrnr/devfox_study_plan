@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,24 +18,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" >
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
     </script>
 </head>
 
 <body class="sb-nav-fixed sb-sidenav-toggled">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar-->
-        <ul class="navbar-nav d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="userDropdown" href="#!" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-            </li>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#!">Settings</a>
-                <a class="dropdown-item" href="#!">Activity Log</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="login.html">Logout</a>
-            </div>
-        </ul>
+        <sec:authorize access="isAuthenticated()">
+            <a class="btn btn-primary float-right ml-auto" href="/customLogout">Logout</a>
+        </sec:authorize>
+        <sec:authorize access="isAnonymous()">
+            <a class="btn btn-primary float-right ml-auto" href="/customLogin">Login</a>
+        </sec:authorize>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_content">

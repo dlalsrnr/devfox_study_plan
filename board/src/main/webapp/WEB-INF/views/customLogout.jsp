@@ -22,25 +22,11 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Logout Page</h3></div>
                                     <div class="card-body">
-                                        <form method='post' action='/login'>
-                                            <div class="form-group">
-                                                <label class="small mb-1" for="username">ID</label>
-                                                <input class="form-control py-4" id="username" name="username" type="text" placeholder="Enter id" autofocus />
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="small mb-1" for="inputPassword">Password</label>
-                                                <input class="form-control py-4" id="inputPassword" name="password" type="password" placeholder="Enter password" />
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox">
-                                                    <label class="custom-control-label" for="rememberMeCheck">Remember Me</label>
-                                                    <input class="custom-control-input" id="rememberMeCheck" name="remember-me" type="checkbox" />
-                                                </div>
-                                            </div>
+                                        <form method='post' action='/customLogout'>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="btn btn-primary btn-login" href="index.html">Login</a>
+                                                <a class="btn btn-primary btn-login" href="index.html">Logout</a>
                                             </div>
                                             <input type='hidden' name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         </form>
@@ -70,5 +56,12 @@
             $("form").submit()
         })
         </script>
+        <c:if test="${param.logout != null}">
+            <script>
+                $(function() {
+                    alert(("로그아웃했습니다."))
+                })
+            </script>
+        </c:if>
     </body>
 </html>
