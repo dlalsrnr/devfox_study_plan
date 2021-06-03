@@ -4,6 +4,9 @@ import java.util.List;
 
 import na.spring.domain.BoardAttachVO;
 
+/**
+ * Mybatisでsql文をxml形式で使うためのmapperとして、直接的にextendsして使用しない
+ */
 public interface BoardAttachMapper {
     public void insert(BoardAttachVO vo);
 

@@ -35,13 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/**").permitAll().and()
-                // 로그인 페이지 설정
+                // ログインページ設定
                 .formLogin().loginPage("/customLogin").loginProcessingUrl("/login").defaultSuccessUrl("/board/list")
                 .and()
-                // 로그아웃 페이지 설정
+                // ログアウトページ設定
                 .logout().logoutUrl("/customLogout").invalidateHttpSession(true)
                 .deleteCookies("remember-me", "JSESSION_ID").and()
-                // 자동 로그인 설정
+                // 自動ログイン設定
                 .rememberMe().key("na").tokenRepository(persistentTokenRepository()).tokenValiditySeconds(604800).and();
     }
 
