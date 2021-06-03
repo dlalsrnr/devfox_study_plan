@@ -35,8 +35,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="custom-control custom-checkbox">
-                                                    <label class="custom-control-label" for="rememberMeCheck">Remember Me</label>
                                                     <input class="custom-control-input" id="rememberMeCheck" name="remember-me" type="checkbox" />
+                                                    <label class="custom-control-label" for="rememberMeCheck">Remember Me</label>
                                                 </div>
                                             </div>
                                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
