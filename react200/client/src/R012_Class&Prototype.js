@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class ClassPrototype extends Component {
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -17,8 +16,8 @@ class ClassPrototype extends Component {
         console.log('1. react_' + this.number);
       };
       return ExamCount;
-    }());
-    
+    })();
+
     var cnt = new ExamCountFunc('200');
     cnt.showNum();
 
@@ -31,15 +30,13 @@ class ClassPrototype extends Component {
         console.log(`2. react_${this.number2}`);
       }
     }
-    
+
     var cnt2 = new ExamCountClass('2hundred');
     cnt2.showNum();
   }
 
   render() {
-    return (
-      <h2>[ THIS IS Class ]</h2>
-    )
+    return <h2>[ THIS IS Class ]</h2>;
   }
 }
 

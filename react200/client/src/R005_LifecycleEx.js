@@ -9,9 +9,7 @@ class R005_LifecycleEx extends Component {
 
   render() {
     console.log('3. render Call');
-    return (
-      <h2>[ THIS IS CONSTRUCTOR FUCNTION ]</h2>
-    )
+    return <h2>[ THIS IS CONSTRUCTOR FUCNTION ]</h2>;
   }
 }
 

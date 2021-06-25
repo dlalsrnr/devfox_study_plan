@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class R006_LifecycleEx extends Component {
   static getDerivedStateFromProps(props, state) {
-    console.log('2. getDerivedStateFromProps Call :'+props.prop_value);
+    console.log('2. getDerivedStateFromProps Call :' + props.prop_value);
     return {};
   }
   constructor(props) {
@@ -13,9 +13,7 @@ class R006_LifecycleEx extends Component {
 
   render() {
     console.log('3. render Call');
-    return (
-      <h2>[ THIS IS CONSTRUCTOR FUCNTION ]</h2>
-    )
+    return <h2>[ THIS IS CONSTRUCTOR FUCNTION ]</h2>;
   }
 }
 
