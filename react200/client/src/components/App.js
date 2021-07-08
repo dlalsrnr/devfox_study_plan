@@ -13,7 +13,7 @@ import Footer from './Footer/Footer';
 // login
 import LoginForm from './LoginForm';
 
-import reactDebounce from './R094_reactDebounce';
+import ApiPostJson from './R111_ApiPostJson';
 
 class App extends Component {
   render() {
@@ -21,7 +21,7 @@ class App extends Component {
       <div className="App">
         <HeaderAdmin />
         <Route exact path="/" component={LoginForm} />
-        <Route exact path="/Debounce" component={reactDebounce} />
+        <Route exact path="/ApiPostJson" component={ApiPostJson} />
         <Footer />
       </div>
     );
