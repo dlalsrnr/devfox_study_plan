@@ -1,0 +1,61 @@
+package co.spring.freeboard;
+
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import command.board.BoardDelete;
+import command.board.BoardList;
+import command.board.BoardSave;
+import command.board.BoardUpdate;
+import command.board.BoardView;
+import common.CommonExcute;
+
+@Controller
+public class FreeboardController {
+
+	@RequestMapping("freeboard")
+	public String boardList(HttpServletRequest request) {
+		String gubun = request.getParameter("t_gubun");
+		String viewPage = "";
+		if(gubun == null) gubun="boardList";
+		
+		if(gubun.equals("boardList")) {
+			CommonExcute board = new BoardList();
+			board.excute(request);
+			viewPage = "/board_list";
+			
+		} else if(gubun.equals("writeForm")) {
+			viewPage = "/board_write";
+			
+		} else if(gubun.equals("boardSave")) {
+			CommonExcute board = new BoardSave();
+			board.excute(request);
+			viewPage = "common_alert";
+			
+		} else if(gubun.equals("boardView")) {
+			CommonExcute board = new BoardView();
+			board.excute(request);
+			viewPage = "/board_view";
+			
+		} else if(gubun.equals("boardUpdateForm")) {
+			CommonExcute board = new BoardView();
+			board.excute(request);
+			viewPage = "/board_update";
+			
+		} else if(gubun.equals("boardUpdate")) {
+			CommonExcute board = new BoardUpdate();
+			board.excute(request);
+			viewPage = "common_alert";
+			
+		} else if(gubun.equals("boardDelete")) {
+			CommonExcute board = new BoardDelete();
+			board.excute(request);
+			viewPage = "common_alert";
+		}
+		return viewPage;
+	}
+	
+}
