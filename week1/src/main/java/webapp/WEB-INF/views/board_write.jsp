@@ -4,8 +4,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>자유게시판연습_이민국</title>
-	<link href="/spr/css/common.css" rel="stylesheet">
-	<link href="/spr/css/layout.css" rel="stylesheet" >		
+	<link href="css/common.css" rel="stylesheet">
+	<link href="css/layout.css" rel="stylesheet" >		
 	<script type="text/javascript">
 
 	</script>
@@ -49,7 +49,7 @@
 						<tr>
 							<th>작성자</th>
 							<td class="th_left">
-								<input name="reg_id"  class="input_300px" type="text">
+								<input name="reg_id" value="${sessionName}" class="input_300px" type="text">
 							</td>
 						</tr>
 						<tr>
