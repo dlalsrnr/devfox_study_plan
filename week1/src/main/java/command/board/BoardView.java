@@ -1,5 +1,7 @@
 package command.board;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import boardDao.BoardDao;
@@ -13,7 +15,9 @@ public class BoardView implements CommonExcute {
 		BoardDao dao = new BoardDao();
 		String no = request.getParameter("t_no");
 		BoardDto dto = dao.getBoardView(no);
+		ArrayList<BoardDto> dtos = dao.getCommentList(no);
 		request.setAttribute("dto", dto);
+		request.setAttribute("dtos", dtos);
 	}
 
 }
