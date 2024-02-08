@@ -2,10 +2,37 @@ package boardDto;
 
 public class BoardDto {
 	private String title, content, reg_id, reg_date, id, name, password, email, comment;
-	private int no;
+	private int no, no2;
 	
 	
-	
+	//댓글조회
+	public BoardDto(String comment, String reg_id) {
+		super();
+		this.comment = comment;
+		this.reg_id = reg_id;
+	}
+
+
+	//댓글등록
+	public BoardDto(String comment, String reg_id, String reg_date, int no, int no2) {
+		this.comment = comment;
+		this.reg_id = reg_id;
+		this.reg_date = reg_date;
+		this.no = no;
+		this.no2 = no2;
+	}
+
+
+	//회원가입
+	public BoardDto(String reg_date, String id, String name, String password, String email) {
+		this.reg_date = reg_date;
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+	}
+
+
 	//게시글 수정
 	public BoardDto(String title, String content, String reg_id, String reg_date) {
 		super();
@@ -76,6 +103,12 @@ public class BoardDto {
 
 	public String getComment() {
 		return comment;
+	}
+
+
+
+	public int getNo2() {
+		return no2;
 	}
 	
 	
