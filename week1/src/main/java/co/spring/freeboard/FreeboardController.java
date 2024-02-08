@@ -11,6 +11,10 @@ import command.board.BoardList;
 import command.board.BoardSave;
 import command.board.BoardUpdate;
 import command.board.BoardView;
+import command.board.CommentSave;
+import command.board.MemberLogin;
+import command.board.MemberLogout;
+import command.board.MemberSave;
 import common.CommonExcute;
 
 @Controller
@@ -52,6 +56,38 @@ public class FreeboardController {
 			
 		} else if(gubun.equals("boardDelete")) {
 			CommonExcute board = new BoardDelete();
+			board.excute(request);
+			viewPage = "common_alert";
+			
+		//댓글등록	
+		} else if(gubun.equals("commentSave")) {
+			CommonExcute board = new CommentSave();
+			board.excute(request);
+			viewPage = "common_alert_view";
+		
+		//로그인 화면
+		} else if(gubun.equals("memberLogin")) {
+			viewPage = "member_login";
+			
+		//로그인
+		} else if(gubun.equals("login")) {
+			CommonExcute board = new MemberLogin();
+			board.excute(request);
+			viewPage = "common_alert";
+			
+		//로그아웃
+		} else if(gubun.equals("logout")) {
+			CommonExcute board = new MemberLogout();
+			board.excute(request);
+			viewPage = "common_alert";
+			
+		//회원가입 화면
+		} else if(gubun.equals("memberJoin")) {
+			viewPage = "member_join";
+			
+		//회원저장
+		} else if(gubun.equals("memberSave")) {
+			CommonExcute board = new MemberSave();
 			board.excute(request);
 			viewPage = "common_alert";
 		}
