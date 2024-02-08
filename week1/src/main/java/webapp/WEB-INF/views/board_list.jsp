@@ -22,6 +22,24 @@ function goSearch(){
 	board.action="freeboard";
 	board.submit();
 }
+function goLogin(){
+	view.t_gubun.value = "memberLogin";
+	view.method="post";
+	view.action="freeboard";
+	view.submit();
+}
+function goLogout(){
+	view.t_gubun.value = "logout";
+	view.method="post";
+	view.action="freeboard";
+	view.submit();
+}
+function goPage(pageNumber){
+	board.t_nowPage.value = pageNumber;
+	board.method="post";
+	board.action="freeboard";
+	board.submit();
+}
 function goView(no){
 	view.t_no.value=no;
 	view.t_gubun.value = "boardView";
@@ -50,6 +68,7 @@ function gowriteForm(){
 				<p>총게시글 : <span>${dtos.size()}</span>건</p>
 			</div>
 			<form name="board">
+			<input type="hidden" name="t_nowPage">	
 			<div class="search_group">
 				<select name="t_select" class="select">
 					<option value="title" <c:if test="${select eq 'title'}">selected</c:if>>제목</option>
@@ -89,7 +108,16 @@ function gowriteForm(){
 			</tbody>
 		</table>
 		<div class="paging">
-			<a href="javascript:gowriteForm()" class="write">게시글등록</a>
+			${displayPage}
+			<c:if test="${not empty sessionId}">
+				<a href="javascript:gowriteForm()" class="write">게시글등록</a>
+			</c:if>
+			<c:if test="${empty sessionId}">
+				<a href="javascript:goLogin()" class="write">로그인</a>
+			</c:if>
+			<c:if test="${not empty sessionId}">
+				<a href="javascript:goLogout()" class="write">로그아웃</a>
+			</c:if>
 		</div>
 	</div>
  </body>
