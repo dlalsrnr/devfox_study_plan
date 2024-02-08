@@ -12,12 +12,20 @@
 </head>
 <body>
 <script>
-	function goMemberSave(){
-		board.t_gubun.value="memberSave";
+	function goLogin(){
+		board.t_gubun.value="login";
 		board.method="post";
 		board.action="freeboard";
 		board.submit();
 	}
+	
+	function goJoin(){
+		board.t_gubun.value="memberJoin";
+		board.method="post";
+		board.action="freeboard";
+		board.submit();
+	}
+	
 	
 </script>
 	<div class="container">
@@ -42,27 +50,9 @@
 							</td>
 						</tr>
 						<tr>
-							<th>이름</th>
-							<td class="th_left">
-								<input name="name"  class="input_300px" type="text">
-							</td>
-						</tr>
-						<tr>
 							<th>비밀번호</th>
 							<td class="th_left">
 								<input name="password"  class="input_300px" type="password">
-							</td>
-						</tr>
-						<tr>
-							<th>이메일</th>
-							<td class="th_left">
-								<input name="email"  class="input_300px" type="text">
-							</td>
-						</tr>
-						<tr>
-							<th>회원가입일</th>
-							<td class="th_left">
-								<input name="reg_date"  class="input_300px" type="date">
 							</td>
 						</tr>
 					</tbody>
@@ -70,7 +60,8 @@
 			</div>
 			</form>
 			<div class="btn_wrap">
-				<input type="button" value="회원등록" onclick="goMemberSave()" class="btn_ok">&nbsp;&nbsp;
+				<input type="button" value="로그인" onclick="goLogin()" class="btn_ok">&nbsp;&nbsp;
+				<input type="button" value="회원가입" onclick="goJoin()" class="btn_ok">&nbsp;&nbsp;
 				<input type="button" value="홈으로" onclick="location.href='freeboard'" class="btn_list">
 			</div>
 		</div>
