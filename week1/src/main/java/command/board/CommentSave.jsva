@@ -1,0 +1,33 @@
+package command.board;
+
+import javax.servlet.http.HttpServletRequest;
+
+import boardDao.BoardDao;
+import boardDto.BoardDto;
+import common.CommonExcute;
+import common.CommonUtil;
+
+public class CommentSave implements CommonExcute {
+
+	@Override
+	public void excute(HttpServletRequest request) {
+		BoardDao dao = new BoardDao();
+		String t_no = request.getParameter("t_no");
+		int no = dao.getMaxNo();
+		String no2 = request.getParameter("t_no");
+		String comment = request.getParameter("t_comment");
+		String reg_id = dao.getSessionName(request);
+		String reg_date = CommonUtil.getToday();
+		BoardDto dto = new BoardDto(comment, reg_id, reg_date, no, Integer.parseInt(no2));
+		
+		int result = dao.commentSave(dto);
+		String msg = "댓글 등록성공!";
+		if(result!=1) msg = "댓글 등록실패!";
+		
+		request.setAttribute("t_msg", msg);
+		request.setAttribute("t_url", "freeboard");
+		request.setAttribute("t_gubun", "boardView");
+		request.setAttribute("t_no", t_no);
+	}
+
+}
