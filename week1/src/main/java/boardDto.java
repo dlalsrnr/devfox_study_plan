@@ -5,6 +5,16 @@ public class BoardDto {
 	private int no, no2;
 	
 	
+
+
+	//댓글 수정,삭제 불러오기
+	public BoardDto(String content, String reg_id, int no) {
+		this.content = content;
+		this.reg_id = reg_id;
+		this.no = no;
+	}
+
+
 	//댓글조회
 	public BoardDto(String comment, String reg_id) {
 		super();
