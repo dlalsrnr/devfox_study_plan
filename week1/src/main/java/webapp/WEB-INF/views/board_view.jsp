@@ -27,6 +27,20 @@
 			board.submit();
 		}
 	}
+	function goCommentUpdateForm(){
+		board.t_gubun.value="commentUpdateForm";
+		board.method="post";
+		board.action="freeboard";
+		board.submit();
+	}
+	function goCommentDelete(){
+		if(confirm("정말 삭제하시겠습니까?")){
+			board.t_gubun.value="commentDelete";
+			board.method="post";
+			board.action="freeboard";
+			board.submit();
+		}
+	}
 	function goCommentSave(){
 		board.t_gubun.value="commentSave";
 		board.method="post";
@@ -42,6 +56,7 @@
 		<div class="write_wrap">
 			<form name="board">
 			<input type="hidden" name="t_no" value="${dto.getNo()}">
+			<input type="hidden" name="t_cno" value="${dto2.getNo()}">
 			<input type="hidden" name="t_gubun">
 			<div class="board_list">
 				<table class="board_table">
@@ -119,6 +134,10 @@
 				<c:if test="${dto.getReg_id() eq sessionName}">
 					<input type="button" onClick="goUpdateForm()" value="수정" class="btn_list">
 					<input type="button" onClick="goDelete()" value="삭제" class="btn_list">
+				</c:if>
+				<c:if test="${dto2.getReg_id() eq sessionName and dtos.size() > 0 and sessionName ne null}">
+					<input type="button" onClick="goCommentUpdateForm()" value="댓글수정" class="btn_list">
+					<input type="button" onClick="goCommentDelete()" value="댓글삭제" class="btn_list">
 				</c:if>
 			</div>
 		</div>
