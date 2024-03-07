@@ -291,13 +291,19 @@ img.width100 {width:100%; border:1px solid #a2a2a2;}
 .board_list .th_left {border-top:1px solid #333;padding:15px 5px; text-align:left;}
 .board_table td {border-bottom:1px solid #e0e0e0; padding:15px 5px; text-align:center}
 .board_table td.title {text-align:left;}
-.textArea_H250{width:600px;height:250px;}	
+.textArea_H250{width:600px;height:250px;}
 
 .paging {padding-top:50px; text-align:center;}
 .paging a {padding:10px; border:1px solid #e0e0e0;}
 .paging a.active {background:#007dc6; color:#fff;}
 .paging .btn_write {background:#f78181; padding:10px 16px; color:#fff; float:right;}
-
+.paging a.write {right:60px; position:absolute; background:#795a55; color:#fff;}
+.paging a.write1 {
+    right: 130px;
+    position: absolute;
+    background: #795a55;
+    color: #fff;
+}
 
 .write_wrap {margin-top:10px;}
 .write_wrap th, .write_wrap td {padding:10px; border-bottom:1px solid #ddd;}
@@ -384,56 +390,6 @@ font-weight:bold; cursor:pointer;}
 .leftmargin h1{
 	text-align:center;
 }	
-
-/* comment */
-.comment textarea{height:50px;}
-.comment .th_left{border-top: 1px solid #ddd; padding: 15px 5px; text-align: left;}
-.comment th{border-top: 1px solid #ddd; padding: 15px 5px; text-align: center;}
-.comment {clear:both; padding:20px;}
-.comment .cbutton{width:70px; height:50px;}
-.comment .buttontop{border-top:1px solid #ddd;}
-
-.comment_box .th_left{border-top: 1px solid #ddd; padding: 15px 5px; text-align: left;}
-.comment_box th{border-top: 1px solid #ddd; padding: 15px 5px; text-align: center;}
-
-
-/* paging */
-.paging{
-		margin-top:20px;
-		text-align:center;
-	}
-	.paging:after{
-		content:""; display:block; clear:both;	
-	}	
-	.paging a{
-		padding:4px;
-		font-size:12px;
-		border:1px solid #e0e0e0;
-	}
-	.paging .active{
-		background:#81BEF7;
-		color:#fff;
-	}
-	.paging .write{
-		float:right;
-		padding:5px 10px;
-		background:#795a55; 
-		color:#fff;
-		height:30px;
-		
-	}
-	.paging i{
-		color:gray;
-	}	
-
-	.paging a:hover, .buttonGroup a:hover{
-		color:#fff;	
-		background:#424242;
-	}
-
-
-
-
 
 /* footer */
 .footer {clear:both; background:#42464d; padding-top:20px; padding-bottom:20px;}
