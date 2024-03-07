@@ -6,9 +6,7 @@
 	<title>자유게시판연습_이민국</title>
 	<link href="css/common.css" rel="stylesheet">
 	<link href="css/layout.css" rel="stylesheet" >		
-	<script type="text/javascript">
-
-	</script>
+	 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <script>
@@ -18,8 +16,31 @@
 		board.action="freeboard";
 		board.submit();
 	}
-	
 </script>
+<script type="text/javascript">
+
+function checkId(){
+	var inputed = $('#id').val();
+	$.ajax({
+		url : "/test/checkid",
+		data : {
+			mid : inputed
+		},
+		type: "POST",
+		dataType: "json",
+		success : function(data) {
+			if (data == 1) {
+				$("#label1").css("color", "red").text("이미 사용중인 ID 입니다!");
+			}else if(inputed == ""){
+				$("#label1").css("color", "red").text("공백은 사용할 수 없습니다!");
+			}else{
+				$("#label1").css("color", "green").text("사용 가능한 ID 입니다!");
+			}
+		}
+	}); 
+}
+</script>
+
 	<div class="container">
 
 		<div class="leftmargin">
@@ -38,31 +59,31 @@
 						<tr>
 							<th>아이디</th>
 							<td class="th_left">
-								<input name="id"  class="input_300px" type="text">
+								<input name="id" id="id" value="" class="input_300px" type="text" oninput="checkId()"><label id="label1"></label>
 							</td>
 						</tr>
 						<tr>
 							<th>이름</th>
 							<td class="th_left">
-								<input name="name"  class="input_300px" type="text">
+								<input name="name" value="" class="input_300px" type="text">
 							</td>
 						</tr>
 						<tr>
 							<th>비밀번호</th>
 							<td class="th_left">
-								<input name="password"  class="input_300px" type="password">
+								<input name="password" value="" class="input_300px" type="password">
 							</td>
 						</tr>
 						<tr>
 							<th>이메일</th>
 							<td class="th_left">
-								<input name="email"  class="input_300px" type="text">
+								<input name="email" value="" class="input_300px" type="text">
 							</td>
 						</tr>
 						<tr>
 							<th>회원가입일</th>
 							<td class="th_left">
-								<input name="reg_date"  class="input_300px" type="date">
+								<input name="reg_date" value="${today}" class="input_300px" type="text">
 							</td>
 						</tr>
 					</tbody>
