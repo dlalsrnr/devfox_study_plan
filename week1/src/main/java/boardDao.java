@@ -16,6 +16,23 @@ import common.DBConnection;
 
 public class BoardDao {
 
+	
+	public static int checkId(String mid) {
+		int result = 0;
+		String query = "select count(*) count from freeboard_member where id=?";
+		try(Connection con = DBConnection.getConnection();
+			PreparedStatement ps = con.prepareStatement(query)){
+			ps.setString(1, mid);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) result = rs.getInt("count");
+		} catch (SQLException e) {
+            System.out.println("checkId() 오류 : " + query);
+            e.printStackTrace();
+        }
+		return result;
+	}
+	
+	
     // 페이지 설정
     public int getTotalCount(String select, String search) {
         int count = 0;
@@ -298,7 +315,7 @@ public class BoardDao {
                        "        from(" +
                        "select no, title, content, reg_id, to_char(reg_date,'yyyy-mm-dd') reg_date " +
                        "from freeboard_board " +
-                       "where " + select + " like ? " +
+                       "where " + select + " like replace(?,' ','') " +
                        "and title != 'null' " +
                        "order by no desc" +
                        " ) tbl)" +
@@ -368,4 +385,25 @@ public class BoardDao {
         }
         return no;
     }
+
+
+	public int commentSave2(int t_no, String comment, String reg_id, String reg_date, int no) {
+		int result = 0;
+		String query = "insert into freeboard_board " +
+                "(no, content, reg_id, reg_date, b_comment) " +
+                "values (?, ?, ?, ?, ?)";
+		 try (Connection con = DBConnection.getConnection();
+		      PreparedStatement ps = con.prepareStatement(query)) {
+		     ps.setInt(1,no);
+		     ps.setString(2,comment);
+		     ps.setString(3,reg_id);
+		     ps.setString(4,reg_date);
+		     ps.setInt(5,t_no);
+		     result = ps.executeUpdate();
+		 } catch (SQLException e) {
+		     System.out.println("commentSave2() 오류 : " + query);
+		     e.printStackTrace();
+		 }
+		return result;
+	}
 }
