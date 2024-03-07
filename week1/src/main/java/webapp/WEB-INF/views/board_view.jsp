@@ -7,9 +7,7 @@
 	<title>자유게시판연습_이민국</title>
 	<link href="css/common.css" rel="stylesheet">
 	<link href="css/layout.css" rel="stylesheet" >		
-	<script type="text/javascript">
-
-	</script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <script>
@@ -42,11 +40,47 @@
 		}
 	}
 	function goCommentSave(){
-		board.t_gubun.value="commentSave";
-		board.method="post";
-		board.action="freeboard";
-		board.submit();
+		var comment = $('#comment').val();
+		var t_no = $('input[name="t_no"]').val();
+		$.ajax({
+			url : "/test/commentSave",
+			data : {
+				comment : comment,
+				t_no : t_no
+			},
+			type: "POST",
+			dataType: "json",
+			success : function(data) {
+				if (data == 1) {
+					alert("댓글 등록 성공!");
+					$("#comment").val('');
+					goCommentList();
+				}
+			}
+		});
 	}
+	function goCommentList(){
+		var t_no = $('input[name="t_no"]').val();
+		$.ajax({
+			url : "/test/commentList",
+			data : {
+				t_no : t_no
+			},
+			type: "GET",
+			dataType: "json",
+			success : function(data) {
+				 // 서버에서 받은 데이터 활용하여 HTML 문자열 생성
+	            for (var i = 0; i < data.length; i++) {
+	                var regId = data[i].reg_id;
+	                var comment = data[i].comment;
+	             // 각 댓글에 대한 정보를 이미 존재하는 span 태그에 설정
+	                $("#reg_id").text(regId);
+	                $("#comment").text(comment);
+	            }
+			}
+		});
+	}
+	
 </script>
 	<div class="container">
 
@@ -101,7 +135,7 @@
 						<tr>
 							<th>댓글작성</th>
 							<td class="th_left">
-								<textarea name="t_comment" class="textArea_H250"></textarea>
+								<textarea name="t_comment" id="comment" class="textArea_H250"></textarea>
 							</td>
 							<td class="buttontop"><input type="button" onClick="goCommentSave()" value="댓글등록" class="cbutton"></td>
 						</tr>
@@ -123,6 +157,7 @@
 								<c:forEach items="${dtos}" var="dto">
 									${dto.getReg_id()}&nbsp;:&nbsp;${dto.getComment()}<br><br><br>
 								</c:forEach>
+									<span id="reg_id"></span>&nbsp;:&nbsp;<span id="comment"></span><br><br><br>
 								</td>
 							</tr>
 						</tbody>
