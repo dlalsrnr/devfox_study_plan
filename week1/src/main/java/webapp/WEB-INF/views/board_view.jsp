@@ -54,7 +54,7 @@
 				if (data == 1) {
 					alert("댓글 등록 성공!");
 					$("#comment").val('');
-					goCommentList();
+					
 				}
 			}
 		});
